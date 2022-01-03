@@ -1,0 +1,30 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+    <feature>jaxrs-2.1</feature>
+    <feature>jsonp-1.1</feature>
+    <feature>cdi-2.0</feature>
+    <feature>jpa-2.2</feature>
+  </featureManager>
+
+  <variable name="default.http.port" defaultValue="9080" />
+  <variable name="default.https.port" defaultValue="9081" />
+
+  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                id="defaultHttpEndpoint" host="*" />
+
+
+  <library id="MySQLLib">
+	<fileset dir="${shared.resource.dir}/" includes="*.jar"/>
+  </library>
+
+  <dataSource id="eventjpadatasource" jndiName="jdbc/eventjpadatasource">
+    <jdbcDriver libraryRef="MySQLLib"/>
+    <properties databaseName="${GUIDE_JPA_INTRO_DB_NAME}"
+	    serverName="${GUIDE_JPA_INTRO_DB_SERVER}" portNumber="${GUIDE_JPA_INTRO_DB_PORT}"
+	    user="${GUIDE_JPA_INTRO_DB_USER}" password="${GUIDE_JPA_INTRO_DB_PASSWORD}"/>
+  </dataSource>
+
+  <application location="backendServices.war" type="war" context-root="/"></application>
+
+</server>
